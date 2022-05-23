@@ -11,10 +11,9 @@ class postsTable
      */
     public function post()
     {
-        $dbinfo = new usersTable();
-        $connectdb = $dbinfo->connectDatabase();
-
         try {
+            $dbinfo = new usersTable();
+            $connectdb = $dbinfo->connectDatabase();
             $postdata = $connectdb->prepare("SELECT * FROM posts order by seq_no asc");
             $postdata->execute();
             $result = $postdata->fetchAll();
