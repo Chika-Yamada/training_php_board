@@ -8,7 +8,7 @@ $result = $posttable->post();
 <html>
 
 <head>
-    <link rel="stylesheet" href="/docker/web/css/post.css">
+    <link rel="stylesheet" href="../css/post.css">
     <script src="https://kit.fontawesome.com/e330008995.js" crossorigin="anonymous"></script>
 </head>
 
@@ -16,15 +16,45 @@ $result = $posttable->post();
     <div class="header-left">
         <header class="header-letter">
             Bulletin Board
-        </header>
-        <p>MENU</p>
-        <header>
-            <div class="hamburger-menu">
-                <input type="checkbox" id="menu-btn-check">
-                <label for="menu-btn-check" class="menu-btn"><span></span></label>
+            <div class="nav-wrapper" id="nav-wrapper">
+                <div class="hamburger-menu" id="js-hamburger-menu">
+                    <span class="hamburger__line hamburger__line--1"></span>
+                    <span class="hamburger__line hamburger__line--2"></span>
+                    <span class="hamburger__line hamburger__line--3"></span>
+                    <p>MENU</p>
+                </div>
+                <nav class="sp-nav">
+                    <ul style="list-style: none;">
+                        <li id="modal-show">投稿追加</li>
+                        <li>ユーザー管理</li>
+                        <li>ログアウト</li>
+                    </ul>
+                </nav>
+                <div class="black-bg" id="js-black-bg"></div>
             </div>
-        </header>
     </div>
+    </header>
+    </div>
+    <div class="post-wrapper" id="post-modal">
+        <div class="modal">
+            <div class="close-modal">
+                <i class="fa fa-2x fa-times"></i>
+            </div>
+            <div id="post-form">
+                <h2>投稿追加</h2>
+                <form action="#">
+                    <p>投稿タイトル</p>
+                    <input class="post-title" type="text" maxlength="20" placeholder="20文字以内で入力してください。">
+                    <p>投稿内容</p>
+                    <input class="post-detail" type="text" maxlength="200">
+                    <div class="post-button">
+                        <input type=”submit” value="投稿する">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <table>
         <div class="post-delete">
             <div class="post-list">
@@ -46,24 +76,16 @@ $result = $posttable->post();
             <th width="50" height="50">編集</th>
             <th width="50" height="50">削除</th>
         </tr>
-        <?php foreach ($result as $val) : ?>
-        <tr>
-            <td height="100"><input type="checkbox" id="post-btn-check"></td>
-            <td height="100"><?php echo $val["seq_no"] ?></td>
-            <td height="100"><?php echo $val["user_id"] ?></td>
-            <td height="100"><?php echo $val["post_date"] ?></td>
-            <td height="100"><?php echo $val["post_title"] . "<br>" . $val["post_contents"] ?></td>
-            <td height="100"><i class="fa-solid fa-pen-to-square"></td>
-            <td height="100">&times;</td>
-        </tr>
-        <?php endforeach ?>
+        <tbody id="post-data">
+        </tbody>
     </table>
-
 </body>
 
 </html>
 <table border1>
 </table>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="../js/post.js" type="text/javascript"></script>
 </body>
 
 </html>
