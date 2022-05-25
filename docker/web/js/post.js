@@ -1,7 +1,9 @@
 $(function(){
 
 /**
- * Ajax通信用メソッド
+ * 投稿一覧データ取得メソッド
+ * 
+ * @return void
  */
 function getPostDataBase(){
     $.ajax({
@@ -37,10 +39,10 @@ function getPostDataBase(){
 });
 
 //モーダル表示・削除
-    $('#modal-show').click(function() {
+$('#modal-show').click(function() {
     $('.post-wrapper').fadeIn();
     });
 
-    $('.close-modal').click(function() {
-        $('.post-wrapper').fadeOut();
-        });
+$('.close-modal').click(function() {
+    $('.post-wrapper').fadeOut();
+    });
