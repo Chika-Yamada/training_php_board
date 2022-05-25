@@ -3,6 +3,13 @@ require_once('../../db/postsTable.php');
 
 $posttable = new postsTable();
 $result = $posttable->post();
+
+//ログイン後の画面のリンクを取得した場合、ログインなしで開けてしまう事態を防ぐ
+session_start();
+if (!isset($_SESSION["userId"])) {
+    header("Location: /");
+}
+
 ?>
 
 <html>
@@ -44,11 +51,11 @@ $result = $posttable->post();
                 <h2>投稿追加</h2>
                 <form action="#">
                     <p>投稿タイトル</p>
-                    <input class="post-title" type="text" maxlength="20" placeholder="20文字以内で入力してください。">
+                    <input class="post-title" id="post-title" type="text" placeholder="20文字以内で入力してください。">
                     <p>投稿内容</p>
-                    <input class="post-detail" type="text" maxlength="200">
+                    <input class="post-detail" id="post-detail" type="text">
                     <div class="post-button">
-                        <input type=”submit” value="投稿する">
+                        <input type="submit" id="post-btn" value="投稿する">
                     </div>
                 </form>
             </div>

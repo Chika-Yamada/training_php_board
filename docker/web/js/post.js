@@ -1,6 +1,39 @@
 $(function(){
 
 /**
+* 投稿追加のバリデーションチェック
+*    
+* @return void
+*/
+const postbtn = document.getElementById('post-btn');
+
+function PostValidation(){
+    const posttitle = document.getElementById('post-title');
+    const postdetail = document.getElementById('post-detail');
+
+postbtn.addEventListener('click', function(event) {
+    let message = [];
+
+    if(posttitle.value =="" || postdetail.value==""){
+        message.push(" 投稿タイトルまたは投稿内容が未入力です。 \n");
+    }
+
+    if(posttitle.value.length > 20){
+        message.push(" 投稿タイトルを20文字以下で入力してください。\n");
+    }
+
+    if(postdetail.value.length > 200){
+        message.push(" 投稿内容を200文字以下で入力してください。");
+    }
+    
+    if(message.length > 0){
+        let errormessage = message.join("");
+        alert(errormessage);}
+    });
+}
+PostValidation();
+
+/**
  * 投稿一覧データ取得メソッド
  * 
  * @return void
