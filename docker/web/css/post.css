@@ -88,7 +88,7 @@
     right: -100%; /*ハンバーガーがクリックされる前はWindow右側に隠す*/
     top: 50;
     width: 20%; /* 出てくるスライドメニューの幅 */
-    height: 200px;
+    height: 220px;
     margin-top: 50px;
     margin-right: 50px;
     color: black;
@@ -137,6 +137,30 @@
     z-index: 100;
     display: none;
 }
+
+li.modal-post {
+    border-bottom: 1px solid rgba(80, 79, 79, 0.6);   
+    margin-top:20px;
+    padding-bottom:20px;
+    text-align:center;
+    font-size: 20px;
+}
+
+li.modal-user {
+    border-bottom: 1px solid rgba(80, 79, 79, 0.6);
+    margin-top:20px;
+    padding-bottom:20px;
+    text-align:center;
+    font-size: 20px;
+}
+
+li.modal-logout {
+    margin-top:20px;
+    padding-bottom:20px;
+    text-align:center;
+    font-size: 20px;
+}
+
 
 .modal {
     position: absolute;

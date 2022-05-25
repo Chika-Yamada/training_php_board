@@ -25,9 +25,9 @@ $result = $posttable->post();
                 </div>
                 <nav class="sp-nav">
                     <ul style="list-style: none;">
-                        <li id="modal-show">投稿追加</li>
-                        <li>ユーザー管理</li>
-                        <li>ログアウト</li>
+                        <li class="modal-post" id="modal-show">投稿追加</li>
+                        <li class="modal-user">ユーザー管理</li>
+                        <li class="modal-logout">ログアウト</li>
                     </ul>
                 </nav>
                 <div class="black-bg" id="js-black-bg"></div>
