@@ -160,6 +160,10 @@ li.modal-logout {
     text-align:center;
     font-size: 20px;
 }
+#modal-list a{
+    text-decoration: none;
+    color:rgb(5, 5, 5);
+}
 
 
 .modal {
@@ -174,7 +178,7 @@ li.modal-logout {
     border-color: gray;
     border-radius: 30px;
     text-align: center;
-    /* display: none; */
+    /* display: none:; */
 }
 
 .fa-times {

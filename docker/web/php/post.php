@@ -31,10 +31,10 @@ if (!isset($_SESSION["userId"])) {
                     <p>MENU</p>
                 </div>
                 <nav class="sp-nav">
-                    <ul style="list-style: none;">
+                    <ul style="list-style: none;" id="modal-list">
                         <li class="modal-post" id="modal-show">投稿追加</li>
                         <li class="modal-user">ユーザー管理</li>
-                        <li class="modal-logout">ログアウト</li>
+                        <li class="modal-logout"><a href="../../db/logout.php">ログアウト</a></li>
                     </ul>
                 </nav>
                 <div class="black-bg" id="js-black-bg"></div>
@@ -49,15 +49,13 @@ if (!isset($_SESSION["userId"])) {
             </div>
             <div id="post-form">
                 <h2>投稿追加</h2>
-                <form action="#">
-                    <p>投稿タイトル</p>
-                    <input class="post-title" id="post-title" type="text" placeholder="20文字以内で入力してください。">
-                    <p>投稿内容</p>
-                    <input class="post-detail" id="post-detail" type="text">
-                    <div class="post-button">
-                        <input type="submit" id="post-btn" value="投稿する">
-                    </div>
-                </form>
+                <p>投稿タイトル</p>
+                <input class="post-title" id="post-title" type="text" name="post_title" placeholder="20文字以内で入力してください。">
+                <p>投稿内容</p>
+                <input class="post-detail" id="post-detail" name="post_detail" type="text">
+                <div class="post-button">
+                    <input type="submit" id="post-btn" value="投稿する">
+                </div>
             </div>
         </div>
     </div>

@@ -1,81 +1,164 @@
-$(function(){
+$(function() {
+    /**
+     * 投稿追加のバリデーションチェック
+     *
+     * @return void
+     */
+    function PostValidation(posttitle, postdetail) {
+        let message = [];
 
-/**
-* 投稿追加のバリデーションチェック
-*    
-* @return void
-*/
-const postbtn = document.getElementById('post-btn');
+        if (posttitle == "" || postdetail == "") {
+            message.push(" 投稿タイトルまたは投稿内容が未入力です。 \n");
+        }
 
-function PostValidation(){
-    const posttitle = document.getElementById('post-title');
-    const postdetail = document.getElementById('post-detail');
+        if (posttitle.length > 20) {
+            message.push(" 投稿タイトルを20文字以下で入力してください。\n");
+        }
 
-postbtn.addEventListener('click', function(event) {
-    let message = [];
+        if (postdetail.length > 200) {
+            message.push(" 投稿内容を200文字以下で入力してください。");
+        }
 
-    if(posttitle.value =="" || postdetail.value==""){
-        message.push(" 投稿タイトルまたは投稿内容が未入力です。 \n");
+        if (message.length > 0) {
+            let errormessage = message.join("");
+            return errormessage;
+        }
     }
 
-    if(posttitle.value.length > 20){
-        message.push(" 投稿タイトルを20文字以下で入力してください。\n");
-    }
+    /**
+     * 投稿ボタンを押下した時の処理
+     *
+     * @return void
+     */
+    const postbtn = document.getElementById("post-btn");
 
-    if(postdetail.value.length > 200){
-        message.push(" 投稿内容を200文字以下で入力してください。");
-    }
-    
-    if(message.length > 0){
-        let errormessage = message.join("");
-        alert(errormessage);}
+    postbtn.addEventListener("click", function(event) {
+        const posttitle = document.getElementById("post-title").value;
+        const postdetail = document.getElementById("post-detail").value;
+        const errors = PostValidation(posttitle, postdetail);
+        if (errors) {
+            alert(errors);
+            return;
+        }
+
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "j son",
+                data: {
+                    class: "postsTable",
+                    func: "createPost",
+                    post_title: posttitle,
+                    post_detail: postdetail,
+                },
+            })
+            .done(function(data) {
+                $(".post-wrapper").fadeOut();
+                getDatabase();
+                $(".sp-nav").fadeOut();
+                $(".black-bg").fadeOut();
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
     });
-}
-PostValidation();
 
-/**
- * 投稿一覧データ取得メソッド
- * 
- * @return void
- */
-function getPostDataBase(){
-    $.ajax({
-        type:'POST',
-        url:'../php/ajax.php',
-        datatype:'json',
-        data:{
-            'class':'postsTable',
-            'func':'post',
-        },
-        })
-        .done(function(data){
-            $.each(data,function(key,value){
-                $('#post-data').append('<tr><td>'+'<input type="checkbox"></td><td>'+value.seq_no + '</td><td>' +value.user_id + '</td><td>' + value.post_date + '</td><td>'+ value.post_title +'<br>'+value.post_contents+'</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
-        )});
-        }).fail(function (data){
-            alert('通信失敗');
-        })
+    /**
+     * 今投稿登録した1件のデータ取得・表示メソッド
+     *
+     * @return void
+     */
+    function getDatabase() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "postsTable",
+                    func: "newPost",
+                },
+            })
+            .done(function(data) {
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox"></td><td>' +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td>" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
+                    );
+                });
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    }
+
+    /**
+     * 投稿一覧データ取得・表示メソッド
+     *
+     * @return void
+     */
+    function getPostDataBase() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "postsTable",
+                    func: "post",
+                },
+            })
+            .done(function(data) {
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox"></td><td>' +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td>" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
+                    );
+                });
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
     }
     getPostDataBase();
 
-//　ハンバーガーメニュー
-    var nav = document.getElementById('nav-wrapper');
-    var hamburger = document.getElementById('js-hamburger-menu');
-    var blackBg = document.getElementById('js-black-bg');
+    //　ハンバーガーメニュー
+    var nav = document.getElementById("nav-wrapper");
+    var hamburger = document.getElementById("js-hamburger-menu");
+    var blackBg = document.getElementById("js-black-bg");
 
-//ハンバーガーメニューを動かすための処理
-    hamburger.addEventListener('click', function() {
-        nav.classList.toggle('open')});
-    blackBg.addEventListener('click', function () {
-        nav.classList.remove('open');
-        });
+    //ハンバーガーメニューを動かすための処理
+    hamburger.addEventListener("click", function() {
+        nav.classList.toggle("open");
+    });
+    blackBg.addEventListener("click", function() {
+        nav.classList.remove("open");
+    });
+
+    //モーダル表示・削除
+    $("#modal-show").click(function() {
+        $(".post-wrapper").fadeIn();
+    });
+
+    $(".close-modal").click(function() {
+        $(".post-wrapper").fadeOut();
+    });
 });
-
-//モーダル表示・削除
-$('#modal-show').click(function() {
-    $('.post-wrapper').fadeIn();
-    });
-
-$('.close-modal').click(function() {
-    $('.post-wrapper').fadeOut();
-    });
