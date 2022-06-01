@@ -59,6 +59,7 @@ if (!isset($_SESSION["userId"])) {
             </div>
         </div>
     </div>
+    </div>
 
     <table>
         <div class="post-delete">
