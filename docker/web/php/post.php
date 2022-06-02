@@ -9,7 +9,6 @@ session_start();
 if (!isset($_SESSION["userId"])) {
     header("Location: /");
 }
-
 ?>
 
 <html>
@@ -39,8 +38,8 @@ if (!isset($_SESSION["userId"])) {
                 </nav>
                 <div class="black-bg" id="js-black-bg"></div>
             </div>
+        </header>
     </div>
-    </header>
     </div>
     <div class="post-wrapper" id="post-modal">
         <div class="modal">
@@ -67,7 +66,7 @@ if (!isset($_SESSION["userId"])) {
                 <h1>投稿一覧</h1>
             </div>
             <div class="delete-button">
-                <button onclick="location.href=''">削除</button>
+                <input type="submit" id="full-delete-btn" value="削除">
             </div>
         </div>
     </table>

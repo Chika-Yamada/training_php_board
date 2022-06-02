@@ -70,4 +70,25 @@ class postsTable
             echo $e->getMessage();
         }
     }
+
+    /**
+     * 登録情報を削除するメソッド
+     * 
+     * @return mixed $dbinfo
+     */
+    public function deletePost()
+    {
+        $_POST['seq_no'];
+        try {
+            $dbinfo = new usersTable();
+            $connectdb = $dbinfo->connectDatabase();
+            $deletedata = $connectdb->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
+            $deletedata->bindvalue(':seq_no', $_POST['seq_no']);
+            $deletedata->execute();
+            $result = $deletedata->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
 }

@@ -54,113 +54,145 @@ $(function() {
      */
     const postbtn = document.getElementById("post-btn");
 
-    postbtn
-        .addEventListener("click", function(event) {
-            const posttitle = document.getElementById("post-title").value;
-            const postdetail = document.getElementById("post-detail").value;
-            const errors = PostValidation(posttitle, postdetail);
-            if (errors) {
-                alert(errors);
-                return;
-            }
+    postbtn.addEventListener("click", function(event) {
+        const posttitle = document.getElementById("post-title").value;
+        const postdetail = document.getElementById("post-detail").value;
+        const errors = PostValidation(posttitle, postdetail);
+        if (errors) {
+            alert(errors);
+            return;
+        }
 
-            $.ajax({
+        $.ajax({
                 type: "POST",
                 url: "../php/ajax.php",
-                datatype: "j son",
+                datatype: "json",
                 data: {
                     class: "postsTable",
                     func: "createPost",
                     post_title: posttitle,
                     post_detail: postdetail,
                 },
-            }).done(function(data) {
+            })
+            .done(function(data) {
                 $(".post-wrapper").fadeOut();
                 getDatabase();
                 $(".black-bg").fadeOut();
                 nav.classList.toggle("open");
                 document.getElementById("post-title").value = "";
                 document.getElementById("post-detail").value = "";
+            })
+            .fail(function(data) {
+                alert("通信失敗");
             });
-        })
-        .fail(function(data) {
-            alert("通信失敗");
-        });
+    });
+
+    /**
+     * 今投稿登録した1件のデータ取得・表示メソッド
+     *
+     * @return void
+     */
+    function getDatabase() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "postsTable",
+                    func: "newPost",
+                },
+            })
+            .done(function(data) {
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox"></td><td>' +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td>" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
+                    );
+                });
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    }
+
+    /**
+     * 投稿一覧データ取得・表示メソッド
+     *
+     * @return void
+     */
+    function getPostDataBase() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "postsTable",
+                    func: "post",
+                },
+            })
+            .done(function(data) {
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox"></td><td>' +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td>" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td class="delete-btn" id= ' +
+                        value.seq_no +
+                        ">&times;</td></tr>"
+                    );
+                });
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    }
+    getPostDataBase();
+
+    /**
+     * 削除ボタンを押した時の処理
+     *
+     * @return void
+     */
+    $(document).on("click", ".delete-btn", function() {
+        const number = $(this).attr("id");
+        var $select = confirm("No." + number + "の投稿を削除してよろしいですか？");
+        if ($select == false) {
+            return;
+        }
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "postsTable",
+                    func: "deletePost",
+                    seq_no: number,
+                },
+            })
+            .done(function(data) {
+                $("#post-data").empty();
+                getPostDataBase();
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    });
 });
-
-/**
- * 今投稿登録した1件のデータ取得・表示メソッド
- *
- * @return void
- */
-function getDatabase() {
-    $.ajax({
-            type: "POST",
-            url: "../php/ajax.php",
-            datatype: "json",
-            data: {
-                class: "postsTable",
-                func: "newPost",
-            },
-        })
-        .done(function(data) {
-            $.each(data, function(key, value) {
-                $("#post-data").append(
-                    "<tr><td>" +
-                    '<input type="checkbox"></td><td>' +
-                    value.seq_no +
-                    "</td><td>" +
-                    value.user_id +
-                    "</td><td>" +
-                    value.post_date +
-                    "</td><td>" +
-                    value.post_title +
-                    "<br>" +
-                    value.post_contents +
-                    '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
-                );
-            });
-        })
-        .fail(function(data) {
-            alert("通信失敗");
-        });
-}
-
-/**
- * 投稿一覧データ取得・表示メソッド
- *
- * @return void
- */
-function getPostDataBase() {
-    $.ajax({
-            type: "POST",
-            url: "../php/ajax.php",
-            datatype: "json",
-            data: {
-                class: "postsTable",
-                func: "post",
-            },
-        })
-        .done(function(data) {
-            $.each(data, function(key, value) {
-                $("#post-data").append(
-                    "<tr><td>" +
-                    '<input type="checkbox"></td><td>' +
-                    value.seq_no +
-                    "</td><td>" +
-                    value.user_id +
-                    "</td><td>" +
-                    value.post_date +
-                    "</td><td>" +
-                    value.post_title +
-                    "<br>" +
-                    value.post_contents +
-                    '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
-                );
-            });
-        })
-        .fail(function(data) {
-            alert("通信失敗");
-        });
-}
-getPostDataBase();
