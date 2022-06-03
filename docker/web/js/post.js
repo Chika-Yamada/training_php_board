@@ -24,7 +24,7 @@ $(function() {
     /**
      * 投稿追加のバリデーションチェック
      *
-     * @return void
+     * @return String | void
      */
     function PostValidation(posttitle, postdetail) {
         let message = [];

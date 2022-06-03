@@ -74,7 +74,7 @@ class postsTable
     /**
      * 登録情報を削除するメソッド
      * 
-     * @return mixed $dbinfo
+     * @return mixed $result
      */
     public function deletePost()
     {
