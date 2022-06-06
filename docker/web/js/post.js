@@ -77,7 +77,6 @@ $(function() {
             })
             .done(function(data) {
                 $(".post-wrapper").fadeOut();
-                getDatabase();
                 $(".black-bg").fadeOut();
                 nav.classList.remove("open");
                 document.getElementById("post-title").value = "";
@@ -89,44 +88,6 @@ $(function() {
                 alert("通信失敗");
             });
     });
-
-    /**
-     * 今投稿登録した1件のデータ取得・表示メソッド
-     *
-     * @return void
-     */
-    function getDatabase() {
-        $.ajax({
-                type: "POST",
-                url: "../php/ajax.php",
-                datatype: "json",
-                data: {
-                    class: "postsTable",
-                    func: "getPostWhereMaxSeqNo",
-                },
-            })
-            .done(function(data) {
-                $.each(data, function(key, value) {
-                    $("#post-data").append(
-                        "<tr><td>" +
-                        '<input type="checkbox"></td><td>' +
-                        value.seq_no +
-                        "</td><td>" +
-                        value.user_id +
-                        "</td><td>" +
-                        value.post_date +
-                        "</td><td>" +
-                        value.post_title +
-                        "<br>" +
-                        value.post_contents +
-                        '</td><td><i class="fa-solid fa-pen-to-square"></i></td><td>&times;</td></tr>'
-                    );
-                });
-            })
-            .fail(function(data) {
-                alert("通信失敗");
-            });
-    }
 
     /**
      * 投稿一覧データ取得・表示メソッド
