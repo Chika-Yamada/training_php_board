@@ -2,7 +2,7 @@
 require_once('../../db/postsTable.php');
 
 $posttable = new postsTable();
-$result = $posttable->post();
+$result = $posttable->getPostDataWithAscendingOrder();
 
 //ログイン後の画面のリンクを取得した場合、ログインなしで開けてしまう事態を防ぐ
 session_start();
@@ -49,15 +49,15 @@ if (!isset($_SESSION["userId"])) {
             <div id="post-form">
                 <h2>投稿追加</h2>
                 <p>投稿タイトル</p>
-                <input class="post-title" id="post-title" type="text" name="post_title" placeholder="20文字以内で入力してください。">
+                <input class="post-title" id="post-title" type="text" name="post_title" maxlength=20
+                    placeholder="20文字以内で入力してください。">
                 <p>投稿内容</p>
-                <input class="post-detail" id="post-detail" name="post_detail" type="text">
+                <input class="post-detail" id="post-detail" name="post_detail" maxlength=200 type="text">
                 <div class="post-button">
                     <input type="submit" id="post-btn" value="投稿する">
                 </div>
             </div>
         </div>
-    </div>
     </div>
 
     <table>
@@ -89,6 +89,27 @@ if (!isset($_SESSION["userId"])) {
 </html>
 <table border1>
 </table>
+
+<!-- 編集用モーダル -->
+<div class="edit-wrapper" id="edit-modal">
+    <div class="modal">
+        <div class="close-modal">
+            <i class="fa fa-2x fa-times"></i>
+        </div>
+        <div id="edit-form">
+            <h2>投稿編集</h2>
+            <p>投稿タイトル</p>
+            <input class="post-title" id="edit-title" type="text" name="edit-title" placeholder="20文字以内で入力してください。">
+            <p>投稿内容</p>
+            <input id="hidden-edit-btn" type="hidden">
+            <input class="post-detail" id="edit-detail" name="edit-detail" type="text">
+            <div class="post-button">
+                <input type="submit" class="post-edit-btn" id="edit-btn" value="投稿する">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="../js/post.js" type="text/javascript"></script>
 </body>

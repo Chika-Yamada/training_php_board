@@ -246,7 +246,7 @@ li.modal-logout {
     border-radius: 10px;
 }
 
-#full-delete-btn {
+.delete-button input {
     text-align: center;
     align-items: center;
     font-size: 20px;
@@ -260,7 +260,11 @@ li.modal-logout {
     border-radius: 10px;
 }
 
-table td {
+.delete-button input:disabled {
+    background-color: #e6ecf0;
+}
+
+x table td {
     background: #fff;
 }
 
@@ -285,4 +289,15 @@ table td {
     border: solid 1px rgb(96, 96, 103);
     color: rgb(100, 100, 106);
     text-align: center;
+}
+
+.edit-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(80, 79, 79, 0.6);
+    z-index: 100;
+    display: none;
 }
