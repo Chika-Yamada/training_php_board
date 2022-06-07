@@ -144,7 +144,7 @@ $(function() {
     $(document).on("click", ".delete-btn", function() {
         const number = $(this).attr("id");
         var $select = confirm("No." + number + "の投稿を削除してよろしいですか？");
-        if ($select == false) {
+        if ($select === false) {
             return;
         }
         $.ajax({
