@@ -1,9 +1,4 @@
 <?php
-require_once('../../db/postsTable.php');
-
-$posttable = new postsTable();
-$result = $posttable->getPostDataWithAscendingOrder();
-
 //ログイン後の画面のリンクを取得した場合、ログインなしで開けてしまう事態を防ぐ
 session_start();
 if (!isset($_SESSION["userId"])) {
@@ -32,14 +27,13 @@ if (!isset($_SESSION["userId"])) {
                 <nav class="sp-nav">
                     <ul style="list-style: none;" id="modal-list">
                         <li class="modal-post" id="modal-show">投稿追加</li>
-                        <li class="modal-user">ユーザー管理</li>
+                        <li class="modal-user"><a href="manageUser.php">ユーザー管理</li>
                         <li class="modal-logout"><a href="../../db/logout.php">ログアウト</a></li>
                     </ul>
                 </nav>
                 <div class="black-bg" id="js-black-bg"></div>
             </div>
         </header>
-    </div>
     </div>
     <div class="post-wrapper" id="post-modal">
         <div class="modal">
