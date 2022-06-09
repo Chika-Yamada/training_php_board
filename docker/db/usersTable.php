@@ -91,7 +91,6 @@ class usersTable
             $postdata->execute();
             $result = $postdata->fetchAll();
             return $result;
-            error_log($result);
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

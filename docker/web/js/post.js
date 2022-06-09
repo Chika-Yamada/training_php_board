@@ -76,7 +76,6 @@ $(function() {
             })
             .done(function(data) {
                 $(".post-wrapper").fadeOut();
-                // $(".black-bg").fadeOut();
                 nav.classList.remove("open");
                 document.getElementById("post-title").value = "";
                 document.getElementById("post-detail").value = "";
@@ -179,7 +178,6 @@ $(function() {
     $(document).on("click", ".edit-btn", function() {
         //モーダル出現
         $(".edit-wrapper").fadeIn();
-        // $(".black-bg").fadeIn();
 
         //元々書いてあった内容をモーダル内に表示
         const number = $(this).attr("id");
@@ -221,7 +219,6 @@ $(function() {
                 $("#post-data").empty();
                 getPostDataBase();
                 $(".edit-wrapper").fadeOut();
-                // $(".black-bg").fadeOut();
             })
             .fail(function(data) {
                 alert("通信失敗");
