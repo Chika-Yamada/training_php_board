@@ -42,7 +42,6 @@ class postsTable
         }
     }
 
-
     /**
      * 内容を登録するメソッド
      * 
@@ -129,9 +128,7 @@ class postsTable
             $dbinfo = new usersTable();
             $connectdb = $dbinfo->connectDatabase();
             $multideletedata = $connectdb->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
-            
             $params = $_POST['seq_numbers'];
-            error_log($params);
             // 削除するレコードを1件ずつループ処理
             foreach ($params as $value) {
             // 配列の値を :seq_no にセットし、executeでSQLを実行

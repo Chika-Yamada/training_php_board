@@ -12,14 +12,13 @@ $(function() {
         nav.classList.remove("open");
     });
 
-    //モーダル表示・削除
+    //投稿追加モーダル表示・削除
     $("#modal-show").click(function() {
         $(".post-wrapper").fadeIn();
     });
 
     $(".close-modal").click(function() {
         $(".post-wrapper").fadeOut();
-        $(".edit-wrapper").fadeOut();
     });
 
     /**
@@ -77,7 +76,6 @@ $(function() {
             })
             .done(function(data) {
                 $(".post-wrapper").fadeOut();
-                $(".black-bg").fadeOut();
                 nav.classList.remove("open");
                 document.getElementById("post-title").value = "";
                 document.getElementById("post-detail").value = "";
@@ -134,6 +132,7 @@ $(function() {
                 alert("通信失敗");
             });
     }
+    $("#post-data").empty();
     getPostDataBase();
 
     /**
@@ -166,6 +165,11 @@ $(function() {
             });
     });
 
+    //投稿編集モーダル削除
+    $(".close-modal").click(function() {
+        $(".edit-wrapper").fadeOut();
+    });
+
     /**
      * 編集ボタンを押した時の処理
      *
@@ -174,7 +178,6 @@ $(function() {
     $(document).on("click", ".edit-btn", function() {
         //モーダル出現
         $(".edit-wrapper").fadeIn();
-        $(".black-bg").fadeIn();
 
         //元々書いてあった内容をモーダル内に表示
         const number = $(this).attr("id");
@@ -216,7 +219,6 @@ $(function() {
                 $("#post-data").empty();
                 getPostDataBase();
                 $(".edit-wrapper").fadeOut();
-                $(".black-bg").fadeOut();
             })
             .fail(function(data) {
                 alert("通信失敗");
