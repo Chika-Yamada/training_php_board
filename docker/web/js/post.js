@@ -1,15 +1,15 @@
 $(function() {
     //ハンバーガーメニュー
-    var nav = document.getElementById("nav-wrapper");
-    var hamburger = document.getElementById("js-hamburger-menu");
-    var blackBg = document.getElementById("js-black-bg");
+    const NAV = document.getElementById("nav-wrapper");
+    const HAMBURGER = document.getElementById("js-hamburger-menu");
+    const BLACK_BG = document.getElementById("js-black-bg");
 
     //ハンバーガーメニューを動かすための処理
-    hamburger.addEventListener("click", function() {
-        nav.classList.toggle("open");
+    HAMBURGER.addEventListener("click", function() {
+        NAV.classList.toggle("open");
     });
-    blackBg.addEventListener("click", function() {
-        nav.classList.remove("open");
+    BLACK_BG.addEventListener("click", function() {
+        NAV.classList.remove("open");
     });
 
     //投稿追加モーダル表示・削除
@@ -26,18 +26,18 @@ $(function() {
      *
      * @return String | void
      */
-    function PostValidation(posttitle, postdetail) {
+    function PostValidation(POST_TITLE, POST_DETAIL) {
         let message = [];
 
-        if (posttitle === "" || postdetail === "") {
+        if (POST_TITLE === "" || POST_DETAIL === "") {
             message.push(" 投稿タイトルまたは投稿内容が未入力です。 \n");
         }
 
-        if (posttitle.length > 20) {
+        if (POST_TITLE.length > 20) {
             message.push(" 投稿タイトルを20文字以下で入力してください。\n");
         }
 
-        if (postdetail.length > 200) {
+        if (POST_DETAIL.length > 200) {
             message.push(" 投稿内容を200文字以下で入力してください。");
         }
 
@@ -55,11 +55,11 @@ $(function() {
     const postbtn = document.getElementById("post-btn");
 
     postbtn.addEventListener("click", function(event) {
-        const posttitle = document.getElementById("post-title").value;
-        const postdetail = document.getElementById("post-detail").value;
-        const errors = PostValidation(posttitle, postdetail);
-        if (errors) {
-            alert(errors);
+        const POST_TITLE = document.getElementById("post-title").value;
+        const POST_DETAIL = document.getElementById("post-detail").value;
+        const ERRORS = PostValidation(POST_TITLE, POST_DETAIL);
+        if (ERRORS) {
+            alert(ERRORS);
             return;
         }
 
@@ -68,15 +68,15 @@ $(function() {
                 url: "../php/ajax.php",
                 datatype: "json",
                 data: {
-                    class: "postsTable",
+                    class: "PostsTable",
                     func: "insertPostData",
-                    post_title: posttitle,
-                    post_detail: postdetail,
+                    post_title: POST_TITLE,
+                    post_detail: POST_DETAIL,
                 },
             })
             .done(function(data) {
                 $(".post-wrapper").fadeOut();
-                nav.classList.remove("open");
+                NAV.classList.remove("open");
                 document.getElementById("post-title").value = "";
                 document.getElementById("post-detail").value = "";
                 $("#post-data").empty();
@@ -98,7 +98,7 @@ $(function() {
                 url: "../php/ajax.php",
                 datatype: "json",
                 data: {
-                    class: "postsTable",
+                    class: "PostsTable",
                     func: "getPostDataWithAscendingOrder",
                 },
             })
@@ -106,7 +106,7 @@ $(function() {
                 $.each(data, function(key, value) {
                     $("#post-data").append(
                         "<tr><td>" +
-                        '<input type="checkbox" class="checkbox" id="checkbox" value= ' +
+                        '<input type="checkbox" class="check-box" id="check-box" value= ' +
                         value.seq_no +
                         "></td><td>" +
                         value.seq_no +
@@ -141,9 +141,11 @@ $(function() {
      * @return void
      */
     $(document).on("click", ".delete-btn", function() {
-        const number = $(this).attr("id");
-        var $select = confirm("No." + number + "の投稿を削除してよろしいですか？");
-        if ($select === false) {
+        const NUMBERS = $(this).attr("id");
+        const SELECT = confirm(
+            "No." + NUMBERS + "の投稿を削除してよろしいですか？"
+        );
+        if (SELECT === false) {
             return;
         }
         $.ajax({
@@ -151,9 +153,9 @@ $(function() {
                 url: "../php/ajax.php",
                 datatype: "json",
                 data: {
-                    class: "postsTable",
+                    class: "PostsTable",
                     func: "deletePost",
-                    seq_no: number,
+                    seq_no: NUMBERS,
                 },
             })
             .done(function(data) {
@@ -180,12 +182,12 @@ $(function() {
         $(".edit-wrapper").fadeIn();
 
         //元々書いてあった内容をモーダル内に表示
-        const number = $(this).attr("id");
-        const title = document.getElementById("post-contents" + number).innerHTML;
-        let result = title.split("<br>");
+        const NUMBERS = $(this).attr("id");
+        const TITLE = document.getElementById("post-contents" + NUMBERS).innerHTML;
+        let result = TITLE.split("<br>");
         document.getElementById("edit-title").value = result[0];
         document.getElementById("edit-detail").value = result[1];
-        document.getElementById("hidden-edit-btn").value = number;
+        document.getElementById("hidden-edit-btn").value = NUMBERS;
     });
 
     /**
@@ -194,12 +196,12 @@ $(function() {
      * @return void
      */
     $(document).on("click", ".post-edit-btn", function() {
-        const sequence = document.getElementById("hidden-edit-btn").value;
-        const posttitle = document.getElementById("edit-title").value;
-        const postdetail = document.getElementById("edit-detail").value;
-        const errormessage = PostValidation(posttitle, postdetail);
-        if (errormessage) {
-            alert(errormessage);
+        const SEQUENCE = document.getElementById("hidden-edit-btn").value;
+        const POST_TITLE = document.getElementById("edit-title").value;
+        const POST_DETAIL = document.getElementById("edit-detail").value;
+        const ERROR_MESSEGE = PostValidation(POST_TITLE, POST_DETAIL);
+        if (ERROR_MESSEGE) {
+            alert(ERROR_MESSEGE);
             return;
         }
 
@@ -208,11 +210,11 @@ $(function() {
                 url: "../php/ajax.php",
                 datatype: "json",
                 data: {
-                    class: "postsTable",
+                    class: "PostsTable",
                     func: "editPostDataBySeqNo",
-                    seq_no: sequence,
-                    edit_title: posttitle,
-                    edit_detail: postdetail,
+                    seq_no: SEQUENCE,
+                    edit_title: POST_TITLE,
+                    edit_detail: POST_DETAIL,
                 },
             })
             .done(function(data) {
@@ -232,9 +234,9 @@ $(function() {
      */
     $("#full-delete-btn").prop("disabled", true);
     // チェックボックスがクリックされたとき
-    $(document).on("change", ".checkbox", function() {
+    $(document).on("change", ".check-box", function() {
         // チェックされているチェックボックスの数
-        if ($(".checkbox:checked").length > 0) {
+        if ($(".check-box:checked").length > 0) {
             // ボタンを活性化
             $("#full-delete-btn").prop("disabled", false);
         } else {
@@ -249,16 +251,16 @@ $(function() {
      * @return void
      */
     $(document).on("click", "#full-delete-btn", function() {
-        var arr = [];
-        // #checkboxの要素をnumbersに格納
-        var numbers = document.getElementsByClassName("checkbox");
-        for (i = 0; i < numbers.length; i++) {
-            if (checkbox[i].checked === true) {
-                // 配列arrにnumbersのvalueをpush
-                arr.push(numbers[i].value);
+        const ARR = [];
+        // #checkBoxの要素をNUMBERSに格納
+        const NUMBERS = document.getElementsByClassName("check-box");
+        for (i = 0; i < NUMBERS.length; i++) {
+            if (NUMBERS[i].checked === true) {
+                // 配列ARRにNUMBERSのvalueをpush
+                ARR.push(NUMBERS[i].value);
             }
         }
-        $confirm = window.confirm("No." + arr + "の投稿を削除してよろしいですか？");
+        $confirm = window.confirm("No." + ARR + "の投稿を削除してよろしいですか？");
         if ($confirm == false) {
             return;
         }
@@ -268,14 +270,108 @@ $(function() {
                 url: "../php/ajax.php",
                 datatype: "json",
                 data: {
-                    class: "postsTable",
+                    class: "PostsTable",
                     func: "multiDeletePost",
-                    seq_numbers: arr,
+                    seq_numbers: ARR,
                 },
             })
             .done(function(data) {
                 $("#post-data").empty();
                 getPostDataBase();
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    });
+
+    /**
+     * 昇順ボタンを押した時、投稿内容を並び替える処理
+     *
+     * @return void
+     */
+    $(document).on("click", ".asc", function() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "PostsTable",
+                    func: "getPostDataWithAscendingOrderByDate",
+                },
+            })
+            .done(function(data) {
+                $("#post-data").empty();
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox" class="check-box" id="check-box" value= ' +
+                        value.seq_no +
+                        "></td><td>" +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td id=post-contents" +
+                        value.seq_no +
+                        ">" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td class="edit-btn" id=' +
+                        value.seq_no +
+                        '><i class="fa-solid fa-pen-to-square"></i></td><td class="delete-btn" id= ' +
+                        value.seq_no +
+                        ">&times;</td></tr>"
+                    );
+                });
+            })
+            .fail(function(data) {
+                alert("通信失敗");
+            });
+    });
+
+    /**
+     * 降順ボタンを押した時、投稿内容を並び替える処理
+     *
+     * @return void
+     */
+    $(document).on("click", ".desc", function() {
+        $.ajax({
+                type: "POST",
+                url: "../php/ajax.php",
+                datatype: "json",
+                data: {
+                    class: "PostsTable",
+                    func: "getPostDataWithDescendingOrderByDate",
+                },
+            })
+            .done(function(data) {
+                $("#post-data").empty();
+                $.each(data, function(key, value) {
+                    $("#post-data").append(
+                        "<tr><td>" +
+                        '<input type="checkbox" class="check-box" id="check-box" value= ' +
+                        value.seq_no +
+                        "></td><td>" +
+                        value.seq_no +
+                        "</td><td>" +
+                        value.user_id +
+                        "</td><td>" +
+                        value.post_date +
+                        "</td><td id=post-contents" +
+                        value.seq_no +
+                        ">" +
+                        value.post_title +
+                        "<br>" +
+                        value.post_contents +
+                        '</td><td class="edit-btn" id=' +
+                        value.seq_no +
+                        '><i class="fa-solid fa-pen-to-square"></i></td><td class="delete-btn" id= ' +
+                        value.seq_no +
+                        ">&times;</td></tr>"
+                    );
+                });
             })
             .fail(function(data) {
                 alert("通信失敗");

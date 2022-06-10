@@ -1,20 +1,21 @@
 <?php
 
 require_once('Validation.php');
-require_once('../../db/usersTable.php');
+require_once('../../db/DatabaseConnect.php');
+require_once('../../db/UsersTable.php');
 
 // 登録ボタンが押された時
 if (isset($_POST["signUp"])) {
-    $userid = htmlspecialchars($_POST["userId"], ENT_QUOTES);
+    $user_id = htmlspecialchars($_POST["userId"], ENT_QUOTES);
     $password = ($_POST["password"]);
-    $passwordcheck = ($_POST["passwordCheck"]);
-    $validationcheck = new Validation();
-    $errormessage = $validationcheck->userRegistValidation($userid, $password, $passwordcheck);
-    if (!empty($errormessage)) {
-        echo "<script>alert('$errormessage')</script>";
+    $password_check = ($_POST["passwordCheck"]);
+    $validation_check = new Validation();
+    $error_message = $validation_check->registValidation($user_id, $password, $password_check);
+    if (!empty($error_message)) {
+        echo "<script>alert('$error_message')</script>";
     } else {
-        $data = new usersTable();
-        $data->userRegist($userid, $password);
+        $data = new UsersTable();
+        $data->insertUserDataByUserId($user_id, $password);
     }
 }
 ?>
@@ -22,7 +23,7 @@ if (isset($_POST["signUp"])) {
 <html>
 
 <head>
-    <link rel="stylesheet" href="/docker/web/css/createAccount.css">
+    <link rel="stylesheet" href="/docker/web/css/createaccount.css">
 </head>
 
 <body>
@@ -48,7 +49,7 @@ if (isset($_POST["signUp"])) {
         </div>
 
         <form method="post" action="">
-            <div class="createaccount-screen">
+            <div class="create-account-screen">
                 <input type="text" name="userId" placeholder="ユーザーID">
             </div>
             <div class="login-screen">

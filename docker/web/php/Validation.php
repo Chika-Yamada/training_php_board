@@ -1,27 +1,27 @@
 <?php
 
-require_once("validationUtil.php");
+require_once("ValidationUtil.php");
 
 class Validation
 {
     /**
      * 登録時のバリデーションチェック
      * 
-     * @param int $userid ユーザーID
+     * @param int $user_id ユーザーID
      * @param int $password
-     * @param int $passwordcheck
+     * @param int $password_check
      * 
      * @return string $errors 
      */
-    public function userRegistValidation($userid, $password, $passwordcheck)
+    public function registValidation($user_id, $password, $password_check)
     {
         $errors = '';
 
-        if (empty($userid) || empty($password) || empty($passwordcheck)) {
+        if (empty($user_id) || empty($password) || empty($password_check)) {
             $errors .= "項目に未記入のものがあります。" . '\n';
         }
 
-        if (!ValidationUtil::isHanEisu($userid) || !ValidationUtil::isMaxLength($userid, 20)) {
+        if (!ValidationUtil::isHanEisu($user_id) || !ValidationUtil::isMaxLength($user_id, 20)) {
             $errors .= "IDは半角英数字で20文字以下にしてください。" . '\n';
         }
 
@@ -29,11 +29,11 @@ class Validation
             $errors .= "パスワードは半角英数字で30文字以下にしてください。" . '\n';
         }
 
-        if (!ValidationUtil::isHanEisu($passwordcheck) || !ValidationUtil::isMaxLength($passwordcheck, 30)) {
+        if (!ValidationUtil::isHanEisu($password_check) || !ValidationUtil::isMaxLength($password_check, 30)) {
             $errors .= "確認用パスワードは半角英数字で30文字以下にしてください。" . '\n';
         }
 
-        if ($password != $passwordcheck) {
+        if ($password != $password_check) {
             $errors .= "パスワードと確認用パスワードが一致していません。";
         }
         if (!empty($errors)) {
@@ -44,33 +44,33 @@ class Validation
     /**
      * ログイン時のバリデーションチェック
      * 
-     * @param int $loginuserid ユーザーID
-     * @param int $loginpassword パスワード
+     * @param int $login_user_id ユーザーID
+     * @param int $login_password パスワード
      * 
-     * @return string　$loginerrors
+     * @return string　$login_errors
      */
-    public function loginValidation($loginuserid, $loginpassword)
+    public function loginValidation($login_user_id, $login_password)
     {
-        $loginerrors = '';
-        $logindata = new usersTable();
-        $logininfo = $logindata->userLogin($loginuserid);
+        $login_errors = '';
+        $login_data = new UsersTable();
+        $login_info = $login_data->SelectUserDataByUserId($login_user_id);
 
-        if (empty($loginuserid) || empty($loginpassword)) {
-            $loginerrors .= "項目に未記入のものがあります。" . '\n';
+        if (empty($login_user_id) || empty($login_password)) {
+            $login_errors .= "項目に未記入のものがあります。" . '\n';
         }
 
-        if (!$logininfo) {
-            $loginerrors .= 'ユーザーIDが存在しません。' . '\n';
+        if (!$login_info) {
+            $login_errors .= 'ユーザーIDが存在しません。' . '\n';
         }
 
-        if (password_verify($loginpassword, $logininfo['password'])) {
-            $_SESSION['userId'] = $logininfo['user_id'];
+        if (password_verify($login_password, $login_info['password'])) {
+            $_SESSION['userId'] = $login_info['user_id'];
         } else {
-            $loginerrors .= 'ユーザーIDかパスワードが正しくありません。' . '\n';
+            $login_errors .= 'ユーザーIDかパスワードが正しくありません。' . '\n';
         }
 
-        if (!empty($loginerrors)) {
-            return $loginerrors;
+        if (!empty($login_errors)) {
+            return $login_errors;
         }
     }
 }

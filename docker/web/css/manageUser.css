@@ -302,3 +302,15 @@ table td {
     z-index: 100;
     display: none;
 }
+
+.user-delete-btn {
+    cursor: default;
+}
+
+.menu {
+    cursor: default;
+}
+
+#modal-list a {
+    cursor: default;
+}

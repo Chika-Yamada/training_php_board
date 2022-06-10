@@ -41,7 +41,7 @@
     padding-bottom: 25px;
 }
 
-.login-screen h2{
+.login-screen h2 {
     margin-top: 20px;
     margin-bottom: 0px;
     padding-top: 20px;
@@ -58,10 +58,10 @@
     border-radius: 20px;
 }
 
-.createaccount-screen input {
+.create-account-screen input {
     width: 450px;
     height: 45px;
-    display:block;
+    display: block;
     padding: 10px 10px;
     margin-top: 10px;
     margin-right: auto;
@@ -74,7 +74,7 @@
 .login-screen input {
     width: 450px;
     height: 45px;
-    display:block;
+    display: block;
     padding: 10px 10px;
     margin-top: 10px;
     margin-right: auto;
@@ -95,4 +95,8 @@
     background-color: rgb(131, 234, 76);
     border: solid 1px rgb(96, 96, 103);
     border-radius: 10px;
+}
+
+.return-button {
+    cursor: default;
 }

@@ -1,22 +1,22 @@
 <?php
 
-require_once('usersTable.php');
+require_once('DatabaseConnect.php');
 
-class postsTable
+class PostsTable
 {
     /**
      * DBのデータ取得処理
      * 
-     * @return mixed $dbinfo
+     * @return mixed $db_info
      */
     public function getPostDataWithAscendingOrder()
     {
         try {
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $postdata = $connectdb->prepare("SELECT * FROM posts order by seq_no asc");
-            $postdata->execute();
-            $result = $postdata->fetchAll();
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $post_data = $connect_db->prepare("SELECT * FROM posts order by seq_no asc");
+            $post_data->execute();
+            $result = $post_data->fetchAll();
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -26,16 +26,16 @@ class postsTable
     /**
      * 今登録したデータ1件を取得する処理
      * 
-     * @return mixed $dbinfo
+     * @return mixed $db_info
      */
     public function getPostWhereMaxSeqNo()
     {
         try {
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $postdata = $connectdb->prepare("SELECT * FROM posts WHERE seq_no = (SELECT MAX(seq_no) FROM posts)");
-            $postdata->execute();
-            $result = $postdata->fetchAll();
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $post_data = $connect_db->prepare("SELECT * FROM posts WHERE seq_no = (SELECT MAX(seq_no) FROM posts)");
+            $post_data->execute();
+            $result = $post_data->fetchAll();
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();
@@ -49,7 +49,6 @@ class postsTable
      */
     public function insertPostData()
     {
-        session_start();
         $_POST['post_title'];
         $_POST['post_detail'];
 
@@ -57,9 +56,9 @@ class postsTable
             $date = new DateTime();
             $now = $date->format('Y-m-d');
 
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $stmt = $connectdb->prepare("INSERT INTO posts (user_id, post_date, post_title, post_contents) VALUES (:userId, :post_date, :post_title, :post_detail)");
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $stmt = $connect_db->prepare("INSERT INTO posts (user_id, post_date, post_title, post_contents) VALUES (:userId, :post_date, :post_title, :post_detail)");
             $stmt->bindvalue(':userId', $_SESSION['userId']);
             $stmt->bindvalue(':post_date', $now);
             $stmt->bindvalue(':post_title', $_POST['post_title']);
@@ -79,11 +78,11 @@ class postsTable
     {
         $_POST['seq_no'];
         try {
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $deletedata = $connectdb->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
-            $deletedata->bindvalue(':seq_no', $_POST['seq_no']);
-            $deletedata->execute();
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $delete_data = $connect_db->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
+            $delete_data->bindvalue(':seq_no', $_POST['seq_no']);
+            $delete_data->execute();
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -103,14 +102,14 @@ class postsTable
             $date = new DateTime();
             $now = $date->format('Y-m-d');
             
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $editdata = $connectdb->prepare("UPDATE posts SET post_title=:edit_title, post_contents=:edit_detail, post_date=:post_date WHERE seq_no=:seq_no;");
-            $editdata->bindvalue(':seq_no', $_POST['seq_no']);
-            $editdata->bindvalue(':post_date', $now);
-            $editdata->bindvalue(':edit_title', $_POST['edit_title']);
-            $editdata->bindvalue(':edit_detail', $_POST['edit_detail']);
-            $editdata->execute();
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $edit_data = $connect_db->prepare("UPDATE posts SET post_title=:edit_title, post_contents=:edit_detail, post_date=:post_date WHERE seq_no=:seq_no;");
+            $edit_data->bindvalue(':seq_no', $_POST['seq_no']);
+            $edit_data->bindvalue(':post_date', $now);
+            $edit_data->bindvalue(':edit_title', $_POST['edit_title']);
+            $edit_data->bindvalue(':edit_detail', $_POST['edit_detail']);
+            $edit_data->execute();
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
@@ -125,15 +124,53 @@ class postsTable
     {
         $_POST['seq_numbers'];
         try {
-            $dbinfo = new usersTable();
-            $connectdb = $dbinfo->connectDatabase();
-            $multideletedata = $connectdb->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $multi_delete_data = $connect_db->prepare("DELETE FROM posts WHERE seq_no=:seq_no;");
             $params = $_POST['seq_numbers'];
             // 削除するレコードを1件ずつループ処理
             foreach ($params as $value) {
             // 配列の値を :seq_no にセットし、executeでSQLを実行
-            $multideletedata->execute(array(':seq_no' => $value));
+            $multi_delete_data->execute(array(':seq_no' => $value));
             }
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * 投稿日を基準に昇順でDBのデータを取得
+     * 
+     * @return mixed $db_info
+     */
+    public function getPostDataWithAscendingOrderByDate()
+    {
+        try {
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $post_data = $connect_db->prepare("SELECT * FROM posts order by post_date asc");
+            $post_data->execute();
+            $result = $post_data->fetchAll();
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    /**
+     * 投稿日を基準に降順でDBのデータを取得
+     * 
+     * @return mixed $db_info
+     */
+    public function getPostDataWithDescendingOrderByDate()
+    {
+        try {
+            $db_info = new DatabaseConnect();
+            $connect_db = $db_info->connectDatabase();
+            $post_data = $connect_db->prepare("SELECT * FROM posts order by post_date desc");
+            $post_data->execute();
+            $result = $post_data->fetchAll();
+            return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();
         }

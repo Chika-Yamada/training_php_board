@@ -1,17 +1,16 @@
 <?php
 
 require_once('docker/web/php/Validation.php');
-require_once('docker/db/usersTable.php');
+require_once('docker/db/UsersTable.php');
 
 // ログインボタンが押された時
-session_start();
 if (isset($_POST["login"])) {
-    $loginuserid = htmlspecialchars($_POST["loginUserId"]);
-    $loginpassword = ($_POST["loginPassword"]);
-    $loginvalidationcheck = new Validation();
-    $loginerrormessege = $loginvalidationcheck->loginValidation($loginuserid, $loginpassword);
-    if (!empty($loginerrormessege)) {
-        echo "<script>alert('$loginerrormessege')</script>";
+    $login_userid = htmlspecialchars($_POST["loginUserId"]);
+    $login_password = ($_POST["loginPassword"]);
+    $login_validation_check = new Validation();
+    $login_error_messege = $login_validation_check->loginValidation($login_userid, $login_password);
+    if (!empty($login_error_messege)) {
+        echo "<script>alert('$login_error_messege')</script>";
     } else {
         header('Location:docker/web/php/post.php');
     }
@@ -54,7 +53,7 @@ if (isset($_POST["login"])) {
             </div>
         </form>
 
-        <a href="/docker/web/php/createAccount.php">新規追加はこちら</a>
+        <a href="/docker/web/php/createaccount.php" class="create">新規追加はこちら</a>
 
     </div>
 </body>

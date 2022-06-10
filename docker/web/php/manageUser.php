@@ -1,7 +1,15 @@
+<?php
+//ログイン後の画面のリンクを取得した場合、ログインなしで開けてしまう事態を防ぐ
+session_start();
+if (!isset($_SESSION["userId"])) {
+    header("Location: /");
+}
+?>
+
 <html>
 
 <head>
-    <link rel="stylesheet" href="../css/manageUser.css">
+    <link rel="stylesheet" href="../css/manageuser.css">
     <script src="https://kit.fontawesome.com/e330008995.js" crossorigin="anonymous"></script>
 </head>
 
@@ -14,11 +22,11 @@
                     <span class="hamburger__line hamburger__line--1"></span>
                     <span class="hamburger__line hamburger__line--2"></span>
                     <span class="hamburger__line hamburger__line--3"></span>
-                    <p>MENU</p>
+                    <p class="menu">MENU</p>
                 </div>
                 <nav class="sp-nav">
                     <ul style="list-style: none;" id="modal-list">
-                        <li class="modal-post" id="modal-show"><a href="post.php">投稿一覧</li>
+                        <li class="modal-post" id="modal-show"><a href="post.php">投稿一覧</a></li>
                         <li class="modal-logout"><a href="../../db/logout.php">ログアウト</a></li>
                     </ul>
                 </nav>
@@ -67,8 +75,8 @@
             <input class="user-id" id="edit-user-id" type="text" name="edit-title" value="">
             <p>パスワード</p>
             <input id="hidden-password-btn" type="hidden">
-            <input class="user-password" id="edit-password" name="edit-detail" type="password">
-            <input class="user-password" id="edit-password-confirm" name="edit-detail" type="password">
+            <input class="user-password" id="edit-password" name="editDetail" type="password">
+            <input class="user-password" id="edit-password-confirm" name="editDetail" type="password">
             <div class="change-button">
                 <input type="submit" class="change-edit-btn" id="change-btn" value="変更する">
             </div>
@@ -77,7 +85,7 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="../js/manageUser.js" type="text/javascript"></script>
+<script src="../js/manageuser.js" type="text/javascript"></script>
 </body>
 
 </html>
