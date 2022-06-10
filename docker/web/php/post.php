@@ -27,7 +27,7 @@ if (!isset($_SESSION["userId"])) {
                 <nav class="sp-nav">
                     <ul style="list-style: none;" id="modal-list">
                         <li class="modal-post" id="modal-show">投稿追加</li>
-                        <li class="modal-user"><a href="manageUser.php">ユーザー管理</li>
+                        <li class="modal-user"><a href="manageuser.php">ユーザー管理</li>
                         <li class="modal-logout"><a href="../../db/logout.php">ログアウト</a></li>
                     </ul>
                 </nav>
@@ -43,10 +43,10 @@ if (!isset($_SESSION["userId"])) {
             <div id="post-form">
                 <h2>投稿追加</h2>
                 <p>投稿タイトル</p>
-                <input class="post-title" id="post-title" type="text" name="post_title" maxlength=20
+                <input class="post-title" id="post-title" type="text" name="postTitle" maxlength=20
                     placeholder="20文字以内で入力してください。">
                 <p>投稿内容</p>
-                <input class="post-detail" id="post-detail" name="post_detail" maxlength=200 type="text">
+                <input class="post-detail" id="post-detail" name="postDetail" maxlength=200 type="text">
                 <div class="post-button">
                     <input type="submit" id="post-btn" value="投稿する">
                 </div>
@@ -67,11 +67,14 @@ if (!isset($_SESSION["userId"])) {
 
     <table border="1">
         <tr>
-            <th width="50" height="50">選択</th>
+            <th width=" 50" height="50">選択</th>
             <th width="50" height="50">No.</th>
             <th width="100" height="50">ユーザーID</th>
-            <th width="100" height="50">投稿日時</th>
-            <th width="300" height="50">項目(内容)</th>
+            <th width="100" height="50">投稿日時
+                <button class=asc>▲</button>
+                <button class=desc>▼</button>
+            </th>
+            <th width=" 300" height="50">項目(内容)</th>
             <th width="50" height="50">編集</th>
             <th width="50" height="50">削除</th>
         </tr>
@@ -93,10 +96,10 @@ if (!isset($_SESSION["userId"])) {
         <div id="edit-form">
             <h2>投稿編集</h2>
             <p>投稿タイトル</p>
-            <input class="post-title" id="edit-title" type="text" name="edit-title" placeholder="20文字以内で入力してください。">
+            <input class="post-title" id="edit-title" type="text" name="editTitle" placeholder="20文字以内で入力してください。">
             <p>投稿内容</p>
             <input id="hidden-edit-btn" type="hidden">
-            <input class="post-detail" id="edit-detail" name="edit-detail" type="text">
+            <input class="post-detail" id="edit-detail" name="editDetail" type="text">
             <div class="post-button">
                 <input type="submit" class="post-edit-btn" id="edit-btn" value="投稿する">
             </div>
