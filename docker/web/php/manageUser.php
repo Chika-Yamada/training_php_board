@@ -22,11 +22,11 @@ if (!isset($_SESSION["userId"])) {
                     <span class="hamburger__line hamburger__line--1"></span>
                     <span class="hamburger__line hamburger__line--2"></span>
                     <span class="hamburger__line hamburger__line--3"></span>
-                    <p>MENU</p>
+                    <p class="menu">MENU</p>
                 </div>
                 <nav class="sp-nav">
                     <ul style="list-style: none;" id="modal-list">
-                        <li class="modal-post" id="modal-show"><a href="post.php">投稿一覧</li>
+                        <li class="modal-post" id="modal-show"><a href="post.php">投稿一覧</a></li>
                         <li class="modal-logout"><a href="../../db/logout.php">ログアウト</a></li>
                     </ul>
                 </nav>

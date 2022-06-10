@@ -96,3 +96,7 @@
     border: solid 1px rgb(96, 96, 103);
     border-radius: 10px;
 }
+
+.return-button {
+    cursor: default;
+}

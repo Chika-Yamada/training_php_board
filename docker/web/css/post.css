@@ -304,3 +304,15 @@ table td {
 .delete-btn {
     cursor: default;
 }
+
+.menu {
+    cursor: default;
+}
+
+.modal-post {
+    cursor: default;
+}
+
+#modal-list a {
+    cursor: default;
+}
